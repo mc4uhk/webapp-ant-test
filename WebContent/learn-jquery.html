@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script
+      src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"
+      integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30="
+      crossorigin="anonymous"
+    ></script>
+    <link rel="stylesheet" href="learn-jquery.css" />
+
+    <link
+      type="text/css"
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.css"
+    />
+    <link
+      type="text/css"
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid-theme.min.css"
+    />
+
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.js"
+    ></script>
+    <meta charset="UTF-8" />
+    <title>CSS Position</title>
+
+    <!-- 
+        Reference
+        jQuery Crash Course [1] - Intro & Selectors
+        https://www.youtube.com/watch?v=3nrLc_JOF7k
+     -->
+  </head>
+  <body>
+    <header>
+      <h1>jQuery Crash Course</h1>
+    </header>
+
+    <div id="container">
+      <h1 id="heading1">Heading One</h1>
+      <p id="para1">
+        Lorem Ipsum is simply dummy text of the printing and typesetting
+        industry. Lorem Ipsum has been the industry's standard dummy text ever
+        since the 1500s, when an unknown printer took a galley of type and
+        scrambled it to make a type specimen book. It has
+        <span>survived not only five centuries</span>, but also the leap into
+        electronic typesetting, remaining essentially unchanged. It was
+        popularised in the 1960s with the release of L
+      </p>
+
+      <div id="abc">abc</div>
+      <h1 class="heading2">Heading Two</h1>
+      <p class="para2">
+        Lorem Ipsum is simply dummy text of the printing and typesetting
+        industry. Lorem Ipsum has been the industry's standard dummy text ever
+        since the 1500s, when an unknown printer took a galley of type and
+        scrambled it to make a type specimen book. It has survived not only five
+        centuries, but also the leap into electronic typesetting, remaining
+        essentially unchanged. It was popularised in the 1960s with the release
+        of L
+      </p>
+
+      <ul id="list">
+        <li>List Item</li>
+        <li>List Item</li>
+        <li>List Item</li>
+        <li>List Item</li>
+        <li>List Item</li>
+        <li>List Item</li>
+      </ul>
+
+      <input type="button" value="Button 1" />
+      <input type="submit" value="Submit" />
+      <input type="text" />
+
+      <a href="http://www.google.com">Google</a>
+      <a href="http://www.yahoo.com">Yahoo</a>
+    </div>
+
+    <div id="jsGrid"></div>
+
+    <script>
+      $("#heading1").click(function () {
+        $(this).effect("highlight", {}, 3000);
+      });
+      //$('h1').hide();
+      //$('h1#heading1').hide();
+      //$('.heading2').hide();
+
+      //$("p span").css("color", "red");
+      $("ul#list li:first").css("color", "red");
+      $("ul#list li:last").css("color", "red");
+      $("ul#list li:even").css("background-color", "yellow");
+      $("ul#list li:odd").css("background-color", "#cccccc");
+      $("ul#list li:nth-child(3n)").css("list-style", "none");
+
+      //$(':button').hide();
+      $(":submit").hide();
+      //$(':text').hide();
+
+      $("[href]").css("color", "red");
+      $('[href="http://www.yahoo.com"]').css("color", "green");
+      //$('*').hide();
+    </script>
+  </body>
+
+  <script>
+    var clients = [
+      {
+        Name: "Otto Clay",
+        Age: 25,
+        Country: 1,
+        Address: "Ap #897-1459 Quam Avenue",
+        Married: false,
+      },
+      {
+        Name: "Connor Johnston",
+        Age: 45,
+        Country: 2,
+        Address: "Ap #370-4647 Dis Av.",
+        Married: true,
+      },
+      {
+        Name: "Lacey Hess",
+        Age: 29,
+        Country: 3,
+        Address: "Ap #365-8835 Integer St.",
+        Married: false,
+      },
+      {
+        Name: "Timothy Henson",
+        Age: 56,
+        Country: 1,
+        Address: "911-5143 Luctus Ave",
+        Married: true,
+      },
+      {
+        Name: "Ramona Benton",
+        Age: 32,
+        Country: 3,
+        Address: "Ap #614-689 Vehicula Street",
+        Married: false,
+      },
+    ];
+
+    var countries = [
+      { Name: "", Id: 0 },
+      { Name: "United States", Id: 1 },
+      { Name: "Canada", Id: 2 },
+      { Name: "United Kingdom", Id: 3 },
+    ];
+
+    $("#jsGrid").jsGrid({
+      width: "100%",
+      height: "400px",
+
+      inserting: true,
+      editing: true,
+      sorting: true,
+      paging: true,
+
+      data: clients,
+
+      rowClick: function (args) {
+        console.log(args);
+        console.log(args.item.Married);
+        args.item.Married = !args.item.Married;
+        $("#jsGrid").jsGrid("refresh");
+        // $("#jsGrid").jsGrid({ data: clients });
+        showSelected();
+      },
+
+      fields: [
+        { name: "Name", type: "text", width: 150, validate: "required" },
+        { name: "Age", type: "number", width: 50 },
+        { name: "Address", type: "text", width: 200 },
+        {
+          name: "Country",
+          type: "select",
+          items: countries,
+          valueField: "Id",
+          textField: "Name",
+        },
+        {
+          name: "Married",
+          type: "checkbox",
+          title: "Is Married",
+          sorting: false,
+        },
+        { type: "control" },
+      ],
+    });
+
+    function showSelected() {
+      // clients.forEach((client, i) => console.log(client.Married ? i : ""));
+      console.log(clients.filter((client) => client.Married));
+    }
+  </script>
+</html>
