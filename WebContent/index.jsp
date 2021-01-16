@@ -10,4 +10,20 @@
 	<h1>HELLO WORLD!</h1>
 	<a href="/webapp-ant-test/learn-jquery.html">jquery example</a>
 </body>
+
+<script>
+
+var clients = [
+		{ a: true }, 
+		{ a: false }, 
+]
+
+function test(){
+	clients.forEach((client) => console.log(client.a));
+}
+
+test();
+
+</script>
+
 </html>

@@ -33,6 +33,7 @@
     <div id="jsGrid"></div>
 
     <input type="button" onclick="goSave()" value="Save" />
+    <input type="button" onclick="goTest()" value="Test" />
   </body>
 
   <script>
@@ -47,6 +48,10 @@
     });
 
     function goSave() {}
+    function goTest() {
+      console.log("Test");
+      console.log(JSON.stringify(clients));
+    }
 
     var isEditing = false;
     var clients = [
@@ -56,6 +61,7 @@
         Country: 1,
         Address: "Ap #897-1459 Quam Avenue",
         Married: false,
+        courses: [{ name: "Chinese" }, { name: "English" }, { name: "Math" }],
       },
       {
         Name: "Connor Johnston",
