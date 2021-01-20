@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script
+      src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"
+      integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30="
+      crossorigin="anonymous"
+    ></script>
+    <link rel="stylesheet" href="learn-jquery.css" />
+    <title>WebSocket Client</title>
+  </head>
+  <body>
+    <input id="textMessage" type="text" />
+    <input onclick="sendMessage();" value="Send Message" type="button" />
+    <br /><textarea id="messagesTextArea" cols="50" rows="10"></textarea>
+    <script type="text/javascript">
+      var websocket = new SockJS(
+        "ws://localhost:8080/webapp-ant-test/serverendpoint"
+      );
+      //var messagesTextArea = $("#messagesTextArea").val();
+      websocket.onopen = (message) => {
+        processOpen(message);
+      };
+
+      websocket.onmessage = (message) => {
+        processMessage(message);
+      };
+
+      websocket.onclose = (message) => {
+        processClose(message);
+      };
+
+      websocket.onerror = (message) => {
+        processError(message);
+      };
+
+      const processOpen = (message) => {
+        messagesTextArea.value += "Server Connect...\n";
+      };
+
+      const processMessage = (message) => {
+        alert(message.data);
+        messagesTextArea.value += `Receive from Server ==> ${message.data}\n`;
+      };
+
+      const sendMessage = () => {
+        if (textMessage.value != "close") {
+          websocket.send(textMessage.value);
+          messagesTextArea.value += `Send to Server ==> ${textMessage.value}\n`;
+          textMessage.value = "";
+        } else websocket.close();
+      };
+
+      const processClose = (message) => {
+        websocket.send("client disconnected...");
+        messagesTextArea.value += "Server Connect...\n";
+      };
+
+      const processError = (message) => {
+        messagesTextArea.value += "Error...\n";
+      };
+    </script>
+  </body>
+</html>
