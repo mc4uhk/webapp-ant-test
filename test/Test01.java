@@ -1,5 +1,6 @@
-package test;
 
+
+import java.lang.invoke.MethodHandles;
 import java.util.Random;
 import java.util.concurrent.SynchronousQueue;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -8,16 +9,18 @@ import java.util.concurrent.TimeUnit;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
 class Test01 {
 	/*
 	Correct implementation of single thread execution, queue size 0, 
 	discard all new task if thread is busy.
 	*/ 
 	ThreadPoolExecutor executor;
+	
+	private final static Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
+
 
 	@BeforeEach
 	public void init() {
@@ -56,7 +59,7 @@ class Test01 {
 		@Override
 		public void run() {
 			String threadName = Thread.currentThread().getName();
-			log.info("exec current thread(start): " + threadName);
+			log.info("exec current thread(start): {}", threadName);
 //			int millis = (new Random()).nextInt(5000);
 			int millis = 5000;
 			try {
@@ -64,7 +67,7 @@ class Test01 {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			log.info("exec current thread(completed): " + threadName + ":" + millis);
+			log.info("exec current thread(completed): {}:{}", threadName,  millis);
 		}
 
 	}
