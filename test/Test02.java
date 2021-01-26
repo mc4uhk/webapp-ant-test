@@ -10,7 +10,8 @@ public class Test02 {
 
 	@Test
 	public void test() {
-		String result = String.format("Hi %s", "Yoo");
+		int[] o = {1,2,3};
+		String result = String.format("Hi %s", o);
 		log.info(result);
 	}
 }
