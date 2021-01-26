@@ -24,6 +24,8 @@
       type="text/javascript"
       src="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.js"
     ></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <meta charset="UTF-8" />
     <title>CSS Position</title>
 
@@ -80,6 +82,25 @@
     </div>
 
     <div id="jsGrid"></div>
+
+
+    <div style="margin-top: 30px">
+      <div style="font-size: 30px;text-align: center">
+      <p id="resultitle" >ABC</p>
+      </div>
+      </div>
+      <div id="resultinfo" style="clear: both;padding-top: 30px">
+      <table style="width: 1080px">
+      <tr id="infotitle">
+      <th style="width:360px">用例名稱</th>
+      <th style="width:200px">模組名稱</th>
+      <th style="width:180px">是否成功</th>
+      <th style="width:180px">一次成功</th>
+      <th style="width:160px">詳情</th></tr>
+      </table>
+      </div>
+      </div>
+
 
     <script>
       $("#heading1").click(function () {
@@ -197,5 +218,38 @@
       // clients.forEach((client, i) => console.log(client.Married ? i : ""));
       console.log(clients.filter((client) => client.Married));
     }
-  </script>
+
+    function testAxios() {
+      axios.get("https://jsonplaceholder.typicode.com/posts/1").then((r) => {
+        console.log(r.data);
+      });
+    }
+
+    testAxios();
+
+
+  $(document).ready(function(){
+    //使用getJSON方法讀取json資料,
+    //注意：info.json可以是不同型別檔案，只要其中的資料為json型別即可
+    var html_title='';
+    var html_resultinfo='';
+    // html_title  = '<b>' + result["title"] + '</b>';
+    html_title  = '<b>' + 'Hi' + '</b>';
+    $('#resultitle').after(html_title);
+    $.each(clients,function(i,client){
+      html_resultinfo += `<tr>`
+      html_resultinfo += `<td>${client.Name}</td>`
+      html_resultinfo += `<td>${client.Age}</td>`
+      html_resultinfo += `<td>${client.Country}</td>`
+      html_resultinfo +=`<td>${client.Address}</td>`;
+      html_resultinfo +=`<td>${client.Married}</td>`;
+      html_resultinfo +=`</tr>`;
+      $('#infotitle').after(html_resultinfo);
+    })
+
+  })
+</script>
+
+  
+  
 </html>
