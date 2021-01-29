@@ -41,6 +41,7 @@
       <div class="h1">
         <span class="badge bg-primary"> Hi </span>
       </div>
+      <div id="pageWidth">123</div>
 
       <span
         class="d-inline-block"
@@ -94,15 +95,18 @@
       >
         Tooltip on left
       </button>
-
-      <input type="button" onclick="goSave()" value="Save" />
-      <input type="button" onclick="goTest()" value="Test" />
-      <div class="spinner-border" role="status">
-        <span class="visually-hidden">Loading...</span>
-      </div>
     </div>
 
     <div class="container">
+      <div class="row">
+        <div class="button-panel">
+          <img class="img-size" src="images/bird.svg" />
+          <img class="img-size" src="images/dog.svg" />
+          <img class="img-size" src="images/koala.svg" />
+          <img class="img-size" src="images/tortoise.svg" />
+        </div>
+      </div>
+
       <div class="row">
         <div class="top-left-panel">
           <!-- panel 1 -->
@@ -257,7 +261,7 @@
 
     $("#jsGrid").jsGrid({
       width: "100%",
-      height: "400px",
+      // height: "400px",
 
       editing: true,
       sorting: true,
@@ -314,6 +318,8 @@
     var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
       return new bootstrap.Tooltip(tooltipTriggerEl);
     });
+
+    $(document).resize($("#pageWidth").html($(document).width()));
   </script>
 
   <style>
@@ -329,10 +335,10 @@
     .top-left-panel {
       display: flex;
       flex-wrap: wrap;
-      flex-direction: column;
+      flex-direction: row;
       /* justify-content: flex-end; */
-      max-height: 35vh;
-      width: 50%;
+      max-height: 40vh;
+      width: auto;
       /* background-color: aqua; */
     }
     .top-right-panel {
@@ -348,6 +354,11 @@
 
     .card-size {
       width: 18rem;
+    }
+
+    .img-size {
+      margin: 5px;
+      height: 50px;
     }
 
     @media (max-width: 800px) {
