@@ -37,68 +37,70 @@
      -->
   </head>
   <body>
-    <div class="h1">
-      <span class="badge bg-primary"> Hi </span>
-    </div>
-    <div class="spinner-border" role="status">
-      <span class="visually-hidden">Loading...</span>
-    </div>
+    <div class="container">
+      <div class="h1">
+        <span class="badge bg-primary"> Hi </span>
+      </div>
 
-    <span
-      class="d-inline-block"
-      tabindex="0"
-      data-bs-toggle="tooltip"
-      title="Disabled tooltip"
-    >
-      <button
-        class="btn btn-primary"
-        style="pointer-events: none"
-        type="button"
-        disabled
+      <span
+        class="d-inline-block"
+        tabindex="0"
+        data-bs-toggle="tooltip"
+        title="Disabled tooltip"
       >
-        Disabled button
+        <button
+          class="btn btn-primary"
+          style="pointer-events: none"
+          type="button"
+          disabled
+        >
+          Disabled button
+        </button>
+      </span>
+
+      <button
+        type="button"
+        class="btn btn-secondary"
+        data-bs-toggle="tooltip"
+        data-bs-placement="top"
+        title="Tooltip on top"
+      >
+        Tooltip on top
       </button>
-    </span>
+      <button
+        type="button"
+        class="btn btn-secondary"
+        data-bs-toggle="tooltip"
+        data-bs-placement="right"
+        title="Tooltip on right"
+      >
+        Tooltip on right
+      </button>
+      <button
+        type="button"
+        class="btn btn-secondary"
+        data-bs-toggle="tooltip"
+        data-bs-placement="bottom"
+        title="Tooltip on bottom"
+      >
+        Tooltip on bottom
+      </button>
+      <button
+        type="button"
+        class="btn btn-secondary"
+        data-bs-toggle="tooltip"
+        data-bs-placement="left"
+        title="Tooltip on left"
+      >
+        Tooltip on left
+      </button>
 
-    <button
-      type="button"
-      class="btn btn-secondary"
-      data-bs-toggle="tooltip"
-      data-bs-placement="top"
-      title="Tooltip on top"
-    >
-      Tooltip on top
-    </button>
-    <button
-      type="button"
-      class="btn btn-secondary"
-      data-bs-toggle="tooltip"
-      data-bs-placement="right"
-      title="Tooltip on right"
-    >
-      Tooltip on right
-    </button>
-    <button
-      type="button"
-      class="btn btn-secondary"
-      data-bs-toggle="tooltip"
-      data-bs-placement="bottom"
-      title="Tooltip on bottom"
-    >
-      Tooltip on bottom
-    </button>
-    <button
-      type="button"
-      class="btn btn-secondary"
-      data-bs-toggle="tooltip"
-      data-bs-placement="left"
-      title="Tooltip on left"
-    >
-      Tooltip on left
-    </button>
-
-    <input type="button" onclick="goSave()" value="Save" />
-    <input type="button" onclick="goTest()" value="Test" />
+      <input type="button" onclick="goSave()" value="Save" />
+      <input type="button" onclick="goTest()" value="Test" />
+      <div class="spinner-border" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
 
     <div class="container">
       <div class="row">
@@ -332,14 +334,13 @@
       flex-wrap: wrap;
       flex-direction: column;
       justify-content: flex-start;
-      max-height: 50vh;
+      max-height: 35vh;
       width: auto;
-      background-color: aqua;
-      padding: 10px 0px;
+      /* background-color: aqua; */
     }
     .top-right-panel {
       width: 15%;
-      background-color: cadetblue;
+      /* background-color: cadetblue; */
       padding: 10px;
     }
 
@@ -354,6 +355,9 @@
     }
 
     @media (max-width: 800px) {
+      * {
+        margin: 0px;
+      }
       .top-left-panel,
       .top-right-panel,
       .bottom-panel {
