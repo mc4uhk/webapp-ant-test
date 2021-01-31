@@ -3,6 +3,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import javax.websocket.Session;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 
 import lombok.extern.slf4j.Slf4j;
@@ -35,5 +39,44 @@ public class Test03 {
 		
 		lolGroup.forEach((k, v) -> log.info("region: {}, teams {}", k, v));
 
+		log.info(findDescription("LPL", lolTeams));
+		log.info(findDescription("LCK", lolTeams));
+		log.info(findDescription("LEC", lolTeams));
+		
+		lolGroup.forEach((k, v) -> log.info("region: {}, teams {}", findDescription(k,lolTeams), v));
+		
+		JSONArray json = createJSON(lolTeams);
+		log.info(json.toString());
+	}
+	
+	
+	private String findDescription(String region, List<SimpleItem> list) {
+		List<SimpleItem> collect = list.stream().filter(
+				item -> { 
+				return region.equals(item.getRegion()) && 
+				       "S".equals(item.getType()); }
+				).collect(Collectors.toList());
+		
+		return collect.get(0).getName();
+	}
+	
+	private JSONArray createJSON(List<SimpleItem> list) {
+
+		Map<String, List<SimpleItem>> group = list.stream()
+				.filter(item -> item.getType() != "S")
+				.collect(Collectors.groupingBy(item -> item.getRegion()));
+
+		JSONArray result = new JSONArray();
+
+		group.forEach((k, v) -> {
+			JSONArray array = new JSONArray(v);
+			JSONObject session = new JSONObject();
+			session.put("session", findDescription(k, list));
+			session.put("rows", array);
+			
+			result.put(session);
+		});
+
+		return result;
 	}
 }

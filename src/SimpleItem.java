@@ -7,7 +7,6 @@ public class SimpleItem {
 	private String name;
 	
 	public SimpleItem(String group, String type, String name) {
-		super();
 		this.region = group;
 		this.type = type;
 		this.name = name;

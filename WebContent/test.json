@@ -1,0 +1,27 @@
+[
+  {
+    "session": "LCK Session",
+    "rows": [
+      { "name": "SKT T1", "type": "N", "region": "LCK" },
+      { "name": "Samsung White", "type": "N", "region": "LCK" },
+      { "name": "DWG", "type": "N", "region": "LCK" }
+    ]
+  },
+  {
+    "session": "LPL Session",
+    "rows": [
+      { "name": "RNG", "type": "N", "region": "LPL" },
+      { "name": "IG", "type": "N", "region": "LPL" },
+      { "name": "FPX", "type": "N", "region": "LPL" },
+      { "name": "WE", "type": "N", "region": "LPL" },
+      { "name": "EDG", "type": "N", "region": "LPL" }
+    ]
+  },
+  {
+    "session": "LEC Session",
+    "rows": [
+      { "name": "G2", "type": "N", "region": "LEC" },
+      { "name": "Fnatic", "type": "N", "region": "LEC" }
+    ]
+  }
+]
