@@ -108,9 +108,9 @@
       </div>
 
       <div class="row">
-        <div class="top-left-panel">
+        <div id="sortable" class="top-left-panel">
           <!-- panel 1 -->
-          <div class="card m-1 align-self-start card-size">
+          <div id="panel01" class="card m-1 align-self-start card-size">
             <div class="card-body p-0">
               <h5 class="card-title bg-primary p-1">Card title</h5>
               <h6 class="card-subtitle mb-2 text-muted p-1">Card subtitle</h6>
@@ -126,7 +126,7 @@
           </div>
 
           <!-- panel 2 -->
-          <div class="card m-1 align-self-start card-size">
+          <div id="panel02" class="card m-1 align-self-start card-size">
             <div class="card-body p-0">
               <h5 class="card-title bg-secondary p-1">Card title</h5>
               <h6 class="card-subtitle mb-2 text-muted p-1">Card subtitle</h6>
@@ -142,7 +142,7 @@
           </div>
 
           <!-- panel 3 -->
-          <div class="card m-1 align-self-start card-size">
+          <div id="panel03" class="card m-1 align-self-start card-size">
             <div class="card-body p-0">
               <h5 class="card-title bg-success p-1">Card title</h5>
               <h6 class="card-subtitle mb-2 text-muted p-1">Card subtitle</h6>
@@ -156,7 +156,7 @@
           </div>
 
           <!-- panel 4 -->
-          <div class="card m-1 align-self-start card-size">
+          <div id="panel04" class="card m-1 align-self-start card-size">
             <div class="card-body p-0">
               <h5 class="card-title bg-warning p-1">Card title</h5>
               <h6 class="card-subtitle mb-2 text-muted p-1">Card subtitle</h6>
@@ -204,6 +204,14 @@
           $("#jsGrid").jsGrid("updateItem");
         }
       });
+
+      $("#sortable").sortable({
+        deactivate: function (event, ui) {
+          saveOrder();
+        },
+      });
+      $("#sortable").disableSelection();
+      restoreOrder();
     });
 
     function goSave() {}
@@ -320,6 +328,25 @@
     });
 
     $(document).resize($("#pageWidth").html($(document).width()));
+
+    function saveOrder() {
+      var itemList = $("#sortable");
+      var order = itemList.sortable("toArray").toString();
+      console.log(order);
+      localStorage.setItem("listOrder", order);
+    }
+
+    function restoreOrder() {
+      var itemList = $("#sortable");
+      var order = localStorage.getItem("listOrder");
+      if (order) {
+        $.each(order.split(","), function (i, id) {
+          //appending the element with the ID given id should move each element to the end of the
+          // list one after another, and at the end, the order should be restored.
+          $("#" + id).appendTo(itemList);
+        });
+      }
+    }
   </script>
 
   <style>
