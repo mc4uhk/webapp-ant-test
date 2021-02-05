@@ -105,76 +105,20 @@
           <img class="img-size" src="images/koala.svg" />
           <img class="img-size" src="images/tortoise.svg" />
         </div>
-      </div>
-
-      <div class="row">
-        <div id="sortable" class="top-left-panel">
-          <!-- panel 1 -->
-          <div id="panel01" class="card m-1 align-self-start card-size">
-            <div class="card-body p-0">
-              <h5 class="card-title bg-primary p-1">Card title</h5>
-              <h6 class="card-subtitle mb-2 text-muted p-1">Card subtitle</h6>
-              <p class="card-text p-1">
-                Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-                accusantium doloremque laudantium, totam rem aperiam, eaque ipsa
-                quae ab illo inventore veritatis et quasi architecto beatae
-                vitae dicta sunt explicabo. Nemo enim ipsam voluptatem
-              </p>
-              <a href="#" class="card-link p-1">Card link</a>
-              <a href="#" class="card-link">Another link</a>
-            </div>
-          </div>
-
-          <!-- panel 2 -->
-          <div id="panel02" class="card m-1 align-self-start card-size">
-            <div class="card-body p-0">
-              <h5 class="card-title bg-secondary p-1">Card title</h5>
-              <h6 class="card-subtitle mb-2 text-muted p-1">Card subtitle</h6>
-              <p class="card-text p-1">
-                Some quick example text to build on the card title and make up
-                the bulk of the card's content. quia voluptas sit aspernatur aut
-                odit aut fugit, sed quia consequuntur magni dolores eos qui
-                ratione
-              </p>
-              <a href="#" class="card-link p-1">Card link</a>
-              <a href="#" class="card-link">Another link</a>
-            </div>
-          </div>
-
-          <!-- panel 3 -->
-          <div id="panel03" class="card m-1 align-self-start card-size">
-            <div class="card-body p-0">
-              <h5 class="card-title bg-success p-1">Card title</h5>
-              <h6 class="card-subtitle mb-2 text-muted p-1">Card subtitle</h6>
-              <p class="card-text p-1">
-                Some quick example text to build on the card title and make up
-                the bulk of the card's content.
-              </p>
-              <a href="#" class="card-link p-1">Card link</a>
-              <a href="#" class="card-link">Another link</a>
-            </div>
-          </div>
-
-          <!-- panel 4 -->
-          <div id="panel04" class="card m-1 align-self-start card-size">
-            <div class="card-body p-0">
-              <h5 class="card-title bg-warning p-1">Card title</h5>
-              <h6 class="card-subtitle mb-2 text-muted p-1">Card subtitle</h6>
-              <p class="card-text p-1">
-                Some quick example text to build on the card title and make up
-                the bulk of the card's content.
-              </p>
-              <a href="#" class="card-link p-1">Card link</a>
-              <a href="#" class="card-link">Another link</a>
-            </div>
-          </div>
+        <div>
+          <span class="card-control" onclick="swapView()">swap</span>
+          <span class="card-control" onclick="reset()" alt="reset">reset</span>
+          <abbr title="help">help</abbr>
         </div>
-        <div class="top-right-panel">123</div>
       </div>
-      <div class="row">
-        <div class="bottom-panel"><div id="jsGrid"></div></div>
+
+      <div class="main-content">
+        <div id="sortable" class="top-left-panel"></div>
+        <div class="bottom-right-panel"><div id="jsGrid"></div>
       </div>
+
     </div>
+
 
     <div class="container">
       <div class="row">
@@ -212,6 +156,8 @@
       });
       $("#sortable").disableSelection();
       restoreOrder();
+      loadRemovedIds();
+      loadOrientation();
     });
 
     function goSave() {}
@@ -269,7 +215,7 @@
 
     $("#jsGrid").jsGrid({
       width: "100%",
-      // height: "400px",
+      height: "50%",
 
       editing: true,
       sorting: true,
@@ -347,41 +293,178 @@
         });
       }
     }
+
+    var orientation;
+    function loadOrientation() {
+      orientation = localStorage.getItem("orientation");
+      if(orientation == null)
+          orientation='vert';
+      setView(orientation);
+    }
+
+    function saveOrientation() {
+      localStorage.setItem("orientation", orientation);
+    }
+
+    function insertCard(id, color) {
+      let newCard = `<div id="${id}" class="card m-1 align-self-start card-size">
+          <div class="card-body p-0">
+            <div style="display: flex; background-color: ${color}; font-weight: bold;">
+            <h5 class="card-title p-1" style="flex-grow:1">${id}</h5>
+            <span class="card-control" style="padding-right:10px;" onclick="remove('${id}')">X</span>
+            </div>
+            <h6 class="card-subtitle mb-2 text-muted p-1">Card subtitle</h6>
+            <p class="card-text p-1">
+              Some quick example text to build on the card title and make up the
+              bulk of the card's content.
+            </p>
+            <a href="#" class="card-link p-1">
+              Card link
+            </a>
+            <a href="#" class="card-link">
+              Another link
+            </a>
+          </div>
+        </div>`;
+
+      var itemList = $("#sortable");
+      itemList.append(newCard);
+    }
+
+    function remove(id) {
+      console.log(id);
+      $("#" + id).fadeOut(1500, () => {
+        $("#" + id).addClass('hidden')
+        saveRemovedIds();
+      });
+    }
+
+    function saveRemovedIds(){
+      let ids= [];
+       $(".hidden").each(function(){ ids.push(this.id); });
+      console.log(ids);
+      localStorage.setItem("removed-ids", ids);
+    }
+
+    function loadRemovedIds(){
+      var removedIds = localStorage.getItem("removed-ids");
+      if (removedIds) {
+        $.each(removedIds.split(","), function (i, id) {
+          $("#" + id).addClass("hidden");
+        });
+      }
+
+    }
+
+    insertCard("panel01", "#e0691f");
+    insertCard("panel02", "#e0bd1f");
+    insertCard("panel03", "#42e01f");
+    insertCard("panel04", "#1fe0d0");
+    insertCard("panel05", "#a6c797");
+    insertCard("panel06", "#c193c2");
+    insertCard("panel07", "#c2ab93");
+
+    function reset(){
+      localStorage.clear();
+      location.reload();
+    }
+
+    function swapView(){
+      orientation = orientation=='vert'?'hori':'vert';
+      saveOrientation();
+
+      $('.main-content').toggleClass("vert");
+      $('.main-content').toggleClass("hori");
+      $('.top-left-panel').toggleClass("vert");
+      $('.top-left-panel').toggleClass("hori");
+      $('.bottom-right-panel').toggleClass("vert");
+      $('.bottom-right-panel').toggleClass("hori");
+      $('.card-size').toggleClass("vert");
+      $('.card-size').toggleClass("hori");
+    }
+
+    function setView(ori){
+      $('.main-content').addClass(ori);
+      $('.top-left-panel').addClass(ori);
+      $('.bottom-right-panel').addClass(ori);
+      $('.card-size').addClass(ori);
+    }
+
   </script>
 
   <style>
     * {
       box-sizing: border-box;
     }
+
     .row {
       display: flex;
-      flex-direction: row;
       flex-wrap: nowrap;
       background-color: cornsilk;
     }
+
+
+    .main-content{
+      display: flex;
+      flex-wrap: nowrap;
+      background-color: cornsilk;
+    }
+
+    .main-content.vert{
+      flex-direction: row; 
+    }
+
+    .main-content.hori{
+      flex-direction: column; 
+    }
+
     .top-left-panel {
       display: flex;
       flex-wrap: wrap;
       flex-direction: column;
-      /* justify-content: flex-end; */
-      max-height: 40vh;
-      width: 100%;
-      /* background-color: aqua; */
+      max-height: 100vh;
+      width: 40%;
+       background-color: aqua; 
       align-content: flex-start;
     }
-    .top-right-panel {
-      width: 15%;
-      /* background-color: cadetblue; */
+
+    .top-left-panel.vert {
+      max-height: 100vh;
+      width: 40%;
+    }
+
+    .top-left-panel.hori {
+      max-height: 40vh;
+      width: 100%;
+    }
+
+    .bottom-right-panel {
+      background-color: cadetblue; 
       padding: 10px;
     }
 
-    .bottom-panel {
-      background-color: bisque;
-      padding: 10px;
+    .bottom-right-panel.vert {
+      flex-grow: 1;
+      width: 50%;
     }
 
-    .card-size {
-      width: 18rem;
+    .bottom-right-panel.hori {
+      width: 100%;
+    }
+
+
+
+
+    .card-size.vert {
+      width: 100%; /*vertical view*/
+    }
+
+    .card-size.hori {
+      width: 18rem; /*horizontal*/
+    }
+
+    .card-control {
+      cursor: pointer;
     }
 
     .img-size {
@@ -389,13 +472,21 @@
       height: 50px;
     }
 
+    .hidden {
+    line-height:0; 
+    height: 0; 
+    overflow: hidden;
+     padding: 0; 
+     margin: 0; 
+     border: 0;
+     }
+
     @media (max-width: 800px) {
       * {
         margin: 0px;
       }
       .top-left-panel,
-      .top-right-panel,
-      .bottom-panel {
+      .bottom-right-panel {
         width: 100%; /* The width is 100%, when the viewport is 800px or smaller */
         max-height: 100%;
       }
