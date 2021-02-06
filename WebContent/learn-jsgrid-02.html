@@ -37,7 +37,7 @@
      -->
   </head>
   <body>
-    <div class="container">
+    <div class="container" >
       <div class="h1">
         <span class="badge bg-primary"> Hi </span>
       </div>
@@ -97,8 +97,8 @@
       </button>
     </div>
 
-    <div class="container">
-      <div class="card01-row">
+    <div class="container" >
+      <div class="card01-row" >
         <div class="button-panel" style="flex-grow: 1;">
           <img class="img-size" src="images/bird.svg" />
           <img class="img-size" src="images/dog.svg" />
@@ -112,9 +112,9 @@
         </div>
       </div>
 
-      <div class="main-content">
+      <div class="main-content" >
         <div id="sortable" class="top-left-panel"></div>
-        <div class="bottom-right-panel"><div id="jsGrid"></div>
+        <div class="bottom-right-panel" ><div id="jsGrid"></div>
       </div>
 
     </div>
@@ -202,8 +202,12 @@
     }
 
     .bottom-right-panel.vert {
+      position: sticky; 
       flex-grow: 1;
       width: 50%;
+      position: sticky; 
+      top: 20px; 
+      height:70vh;
     }
 
     .bottom-right-panel.hori {
