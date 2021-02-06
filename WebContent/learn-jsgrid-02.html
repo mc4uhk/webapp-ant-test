@@ -98,8 +98,8 @@
     </div>
 
     <div class="container">
-      <div class="row">
-        <div class="button-panel">
+      <div class="card01-row">
+        <div class="button-panel" style="flex-grow: 1;">
           <img class="img-size" src="images/bird.svg" />
           <img class="img-size" src="images/dog.svg" />
           <img class="img-size" src="images/koala.svg" />
@@ -137,272 +137,31 @@
       integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
       crossorigin="anonymous"
     ></script>
+
+    <script src="js/learn-jsgrid-02.js"></script>
+
   </body>
 
   <script>
-    //update field if click on Not the cell
-    $(function () {
-      $("#jsGrid").on("click", (args) => {
-        console.log(args.target);
-        if (!$(args.target).is("td") && !$(args.target).is("input")) {
-          $("#jsGrid").jsGrid("updateItem");
-        }
-      });
-
-      $("#sortable").sortable({
-        deactivate: function (event, ui) {
-          saveOrder();
-        },
-      });
-      $("#sortable").disableSelection();
-      restoreOrder();
-      loadRemovedIds();
-      loadOrientation();
-    });
-
-    function goSave() {}
-    function goTest() {
-      console.log("Test");
-      console.log(JSON.stringify(clients));
-    }
-
-    var isEditing = false;
-    var clients = [
-      {
-        Name: "Otto Clay",
-        Age: 25,
-        Country: 1,
-        Address: "Ap #897-1459 Quam Avenue",
-        Married: false,
-        courses: [{ name: "Chinese" }, { name: "English" }, { name: "Math" }],
-      },
-      {
-        Name: "Connor Johnston",
-        Age: 45,
-        Country: 2,
-        Address: "Ap #370-4647 Dis Av.",
-        Married: true,
-      },
-      {
-        Name: "Lacey Hess",
-        Age: 29,
-        Country: 3,
-        Address: "Ap #365-8835 Integer St.",
-        Married: false,
-      },
-      {
-        Name: "Timothy Henson",
-        Age: 56,
-        Country: 1,
-        Address: "911-5143 Luctus Ave",
-        Married: true,
-      },
-      {
-        Name: "Ramona Benton",
-        Age: 32,
-        Country: 3,
-        Address: "Ap #614-689 Vehicula Street",
-        Married: false,
-      },
-    ];
-
-    var countries = [
-      { Name: "", Id: 0 },
-      { Name: "United States", Id: 1 },
-      { Name: "Canada", Id: 2 },
-      { Name: "United Kingdom", Id: 3 },
-    ];
-
-    $("#jsGrid").jsGrid({
-      width: "100%",
-      height: "50%",
-
-      editing: true,
-      sorting: true,
-      paging: true,
-
-      data: clients,
-
-      rowClick: function (args) {
-        if (this._editingRow) this.updateItem();
-
-        console.log(this._editingRow);
-        console.log(args);
-        console.log(args.item.Married);
-
-        if (this.editing) {
-          this.editItem($(args.event.target).closest("tr"));
-        }
-      },
-
-      fields: [
-        {
-          name: "Name",
-          type: "text",
-          width: 150,
-          validate: "required",
-          editing: false,
-        },
-        { name: "Age", type: "number", width: 50, editing: true },
-        { name: "Address", type: "text", width: 200, editing: true },
-        {
-          name: "Country",
-          type: "select",
-          items: countries,
-          valueField: "Id",
-          textField: "Name",
-        },
-        {
-          name: "Married",
-          type: "checkbox",
-          title: "Is Married",
-          sorting: false,
-        },
-      ],
-    });
-
-    function showSelected() {
-      // clients.forEach((client, i) => console.log(client.Married ? i : ""));
-      console.log(clients.filter((client) => client.Married));
-    }
-
-    var tooltipTriggerList = [].slice.call(
-      document.querySelectorAll('[data-bs-toggle="tooltip"]')
-    );
-    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-      return new bootstrap.Tooltip(tooltipTriggerEl);
-    });
-
-    $(document).resize($("#pageWidth").html($(document).width()));
-
-    function saveOrder() {
-      var itemList = $("#sortable");
-      var order = itemList.sortable("toArray").toString();
-      console.log(order);
-      localStorage.setItem("listOrder", order);
-    }
-
-    function restoreOrder() {
-      var itemList = $("#sortable");
-      var order = localStorage.getItem("listOrder");
-      if (order) {
-        $.each(order.split(","), function (i, id) {
-          //appending the element with the ID given id should move each element to the end of the
-          // list one after another, and at the end, the order should be restored.
-          $("#" + id).appendTo(itemList);
-        });
-      }
-    }
-
-    var orientation;
-    function loadOrientation() {
-      orientation = localStorage.getItem("orientation");
-      if(orientation == null)
-          orientation='vert';
-      setView(orientation);
-    }
-
-    function saveOrientation() {
-      localStorage.setItem("orientation", orientation);
-    }
-
-    function insertCard(id, color) {
-      let newCard = `<div id="${id}" class="card m-1 align-self-start card-size">
-          <div class="card-body p-0">
-            <div style="display: flex; background-color: ${color}; font-weight: bold;">
-            <h5 class="card-title p-1" style="flex-grow:1">${id}</h5>
-            <span class="card-control" style="padding-right:10px;" onclick="remove('${id}')">X</span>
-            </div>
-            <h6 class="card-subtitle mb-2 text-muted p-1">Card subtitle</h6>
-            <p class="card-text p-1">
-              Some quick example text to build on the card title and make up the
-              bulk of the card's content.
-            </p>
-            <a href="#" class="card-link p-1">
-              Card link
-            </a>
-            <a href="#" class="card-link">
-              Another link
-            </a>
-          </div>
-        </div>`;
-
-      var itemList = $("#sortable");
-      itemList.append(newCard);
-    }
-
-    function remove(id) {
-      console.log(id);
-      $("#" + id).fadeOut(1500, () => {
-        $("#" + id).addClass('hidden')
-        saveRemovedIds();
-      });
-    }
-
-    function saveRemovedIds(){
-      let ids= [];
-       $(".hidden").each(function(){ ids.push(this.id); });
-      console.log(ids);
-      localStorage.setItem("removed-ids", ids);
-    }
-
-    function loadRemovedIds(){
-      var removedIds = localStorage.getItem("removed-ids");
-      if (removedIds) {
-        $.each(removedIds.split(","), function (i, id) {
-          $("#" + id).addClass("hidden");
-        });
-      }
-
-    }
-
-    insertCard("panel01", "#e0691f");
-    insertCard("panel02", "#e0bd1f");
-    insertCard("panel03", "#42e01f");
-    insertCard("panel04", "#1fe0d0");
-    insertCard("panel05", "#a6c797");
-    insertCard("panel06", "#c193c2");
-    insertCard("panel07", "#c2ab93");
-
-    function reset(){
-      localStorage.clear();
-      location.reload();
-    }
-
-    function swapView(){
-      orientation = orientation=='vert'?'hori':'vert';
-      saveOrientation();
-
-      $('.main-content').toggleClass("vert");
-      $('.main-content').toggleClass("hori");
-      $('.top-left-panel').toggleClass("vert");
-      $('.top-left-panel').toggleClass("hori");
-      $('.bottom-right-panel').toggleClass("vert");
-      $('.bottom-right-panel').toggleClass("hori");
-      $('.card-size').toggleClass("vert");
-      $('.card-size').toggleClass("hori");
-    }
-
-    function setView(ori){
-      $('.main-content').addClass(ori);
-      $('.top-left-panel').addClass(ori);
-      $('.bottom-right-panel').addClass(ori);
-      $('.card-size').addClass(ori);
-    }
-
+ 
   </script>
 
   <style>
     * {
       box-sizing: border-box;
     }
+    .card01 {
+      background-color: whitesmoke;
+      box-shadow: 0 5px 25px #d4d4d4;
+      break-inside: avoid;
+      margin: 10px;
+    }
 
-    .row {
+    .card01-row {
       display: flex;
       flex-wrap: nowrap;
       background-color: cornsilk;
     }
-
 
     .main-content{
       display: flex;
@@ -416,26 +175,25 @@
 
     .main-content.hori{
       flex-direction: column; 
+      /* flex-basis: 50vh;  */
     }
 
     .top-left-panel {
       display: flex;
       flex-wrap: wrap;
       flex-direction: column;
-      max-height: 100vh;
-      width: 40%;
-       background-color: aqua; 
+      /* background-color: aqua;  */
       align-content: flex-start;
+      padding:20px;
     }
 
     .top-left-panel.vert {
-      max-height: 100vh;
       width: 40%;
     }
 
     .top-left-panel.hori {
-      max-height: 40vh;
-      width: 100%;
+      display: inline-block;
+      column-count: 4;
     }
 
     .bottom-right-panel {
@@ -451,8 +209,6 @@
     .bottom-right-panel.hori {
       width: 100%;
     }
-
-
 
 
     .card-size.vert {
@@ -481,21 +237,27 @@
      border: 0;
      }
 
-    @media (max-width: 800px) {
+    @media (max-width: 980px) {
       * {
         margin: 0px;
       }
-      .top-left-panel,
-      .bottom-right-panel {
+      .top-left-panel.hori {
+      column-count: 2;
+    }      
+
+      .top-left-panel.vert,
+      .bottom-right-panel.vert {
         width: 100%; /* The width is 100%, when the viewport is 800px or smaller */
         max-height: 100%;
       }
-      .row {
+      .main-content.vert{
         flex-wrap: wrap;
+        flex-direction: column;
       }
       .card-size {
         width: 100%;
       }
     }
+
   </style>
 </html>
