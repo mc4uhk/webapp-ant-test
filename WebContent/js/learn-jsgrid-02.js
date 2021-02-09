@@ -16,6 +16,7 @@ $(function () {
     restoreOrder();
     loadRemovedIds();
     loadOrientation();
+    activateSwapPanel();
 });
 
 function goSave() { }
@@ -174,7 +175,7 @@ function insertCard(id) {
     let newCard = `<div id="${id}" class="card01 align-self-start card-size">
         <div class="card01-body p-1">
           <div data-todo-group="${id}" style="display: flex; ">
-          <h5 class="card-title p-1" style="flex-grow:1">${id}</h5>
+          <h5 class="card-title p-1" data-todo-id="${id}" style="flex-grow:1">${id}</h5>
           <span class="card-control" style="padding-right:10px;" onclick="remove('${id}')">X</span>
           </div>
           <h6 class="card01-subtitle mb-2 text-muted p-1">Card subtitle</h6>
@@ -202,6 +203,7 @@ function remove(id) {
         $("#" + id).addClass('hidden')
         saveRemovedIds();
     });
+    SwapItems = { first: '', second: '' };
 }
 
 function saveRemovedIds() {
@@ -229,7 +231,7 @@ insertCard("panel05");
 insertCard("panel06");
 insertCard("panel07");
 insertCard("panel08");
-insertCard("panel09", "#697cd1");
+insertCard("panel09");
 
 function reset() {
     localStorage.clear();
@@ -255,4 +257,46 @@ function setView(ori) {
     $('.top-left-panel').addClass(ori);
     $('.bottom-right-panel').addClass(ori);
     $('.card-size').addClass(ori);
+}
+
+function swap(swapItems) {
+    node1 = $('#' + swapItems.first).get(0)
+    node2 = $('#' + swapItems.second).get(0)
+    const afterNode2 = node2.nextElementSibling;
+    const parent = node2.parentNode;
+    node1.replaceWith(node2);
+    parent.insertBefore(node1, afterNode2);
+}
+
+function swapElement(swapItems) {
+    a = $('#' + swapItems.first)
+    b = $('#' + swapItems.second)
+    // create a temporary marker div
+    var aNext = $('<div>').insertAfter(a);
+    a.insertAfter(b);
+    b.insertBefore(aNext);
+    // remove marker div
+    aNext.remove();
+}
+
+var SwapItems = { first: '', second: '' }
+function activateSwapPanel() {
+    $("[id^=panel]").click(function (e) {
+        if (SwapItems.first != '' && SwapItems.second != '')
+            SwapItems = { first: '', second: '' };
+
+        const currId = e.currentTarget.id;
+        console.log(currId);
+        $('#' + currId).effect("highlight", 1000);
+        if (SwapItems.first == '')
+            SwapItems.first = currId;
+        else {
+            SwapItems.second = currId;
+            swapElement(SwapItems);
+            saveOrder();
+            SwapItems = { first: '', second: '' };
+        }
+
+        console.log(SwapItems);
+    });
 }
