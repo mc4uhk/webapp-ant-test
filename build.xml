@@ -1,13 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project>
 
+	<property environment="env"/>
+
+	<path id="class.path">
+	<fileset dir="WebContent/WEB-INF/lib">
+		<include name="*.jar"/>
+	</fileset>
+	</path>
+
+	<path id="tomcat.class.path">
+	<fileset dir="${env.CATALINA_HOME}/lib">
+		<include name="*.jar"/>
+	</fileset>
+	</path>
+
 	<target name="clean">
 		<delete dir="build" />
 	</target>
 
 	<target name="compile">
 		<mkdir dir="build/classes" />
-		<javac srcdir="src" destdir="build/classes" />
+		<javac srcdir="src" destdir="build/classes" >
+			<classpath refid="class.path"/>
+			<classpath refid="tomcat.class.path"/>
+		</javac>
 	</target>
 
 	<target name="jar" depends="clean,compile">
@@ -20,7 +37,7 @@
 	</target>
 
 
-	<target name="war">
+	<target name="war" depends="clean,compile">
 		<war destfile="build/war/myapp.war" webxml="WebContent/WEB-INF/web.xml">
 			<fileset dir="WebContent/">
 			</fileset>
@@ -36,6 +53,19 @@
 	<target name="svnversion">
 		<exec executable="svnversion" outputproperty="svnversion" />
 		<echo message="SVN Version: ${svnversion}" />
+	</target>
+
+
+	<target name="deploy-tomcat" depends="war">
+		<echo message="Stop Tomcat" />
+		<echo message="Tomcat Home: ${env.CATALINA_HOME}" />
+		<exec executable="${env.CATALINA_HOME}/bin/shutdown.sh" />
+		<delete file="${env.CATALINA_HOME}/webapps/myapp.war"/>
+		<delete dir="${env.CATALINA_HOME}/webapps/myapp"/>
+		<copy file="build/war/myapp.war" tofile="${env.CATALINA_HOME}/webapps/myapp.war"/>
+		<exec executable="${env.CATALINA_HOME}/bin/startup.sh" >
+			<arg value="start"/>
+		</exec>
 	</target>
 
 </project>
