@@ -49,7 +49,7 @@
 	</target>
 
 
-	<target name="deploy-tomcat" depends="war">
+	<target name="deploy-tomcat">
 		<echo message="Stop Tomcat" />
 		<echo message="Tomcat Home: ${env.CATALINA_HOME}" />
 		<exec executable="${env.CATALINA_HOME}/bin/shutdown.sh" />
@@ -60,5 +60,20 @@
 			<arg value="start"/>
 		</exec>
 	</target>
+	
+	<target name="deploy-wlp">
+		<echo message="Stop WLP" />
+		<echo message="Tomcat Home: ${env.WLP_HOME}" />
+		<exec executable="${env.WLP_HOME}/bin/server" >
+			<arg value="stop"/>
+			<arg value="was-server"/>
+		</exec>
+		<delete file="${env.WLP_HOME}/usr/servers/was-server/dropins/myapp.war"/>
+		<copy file="build/war/myapp.war" tofile="${env.WLP_HOME}/usr/servers/was-server/dropins/myapp.war"/>
+		<exec executable="${env.WLP_HOME}/bin/server" >
+			<arg value="start"/>
+			<arg value="was-server"/>
+		</exec>
+	</target>	
 
 </project>
