@@ -63,7 +63,7 @@
 	
 	<target name="deploy-wlp">
 		<echo message="Stop WLP" />
-		<echo message="Tomcat Home: ${env.WLP_HOME}" />
+		<echo message="WLP Home: ${env.WLP_HOME}" />
 		<exec executable="${env.WLP_HOME}/bin/server" >
 			<arg value="stop"/>
 			<arg value="was-server"/>
