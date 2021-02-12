@@ -9,12 +9,6 @@
 	</fileset>
 	</path>
 
-	<path id="tomcat.class.path">
-	<fileset dir="${env.CATALINA_HOME}/lib">
-		<include name="*.jar"/>
-	</fileset>
-	</path>
-
 	<target name="clean">
 		<delete dir="build" />
 	</target>
@@ -23,7 +17,6 @@
 		<mkdir dir="build/classes" />
 		<javac srcdir="src" destdir="build/classes" >
 			<classpath refid="class.path"/>
-			<classpath refid="tomcat.class.path"/>
 		</javac>
 	</target>
 
