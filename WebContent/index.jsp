@@ -8,7 +8,13 @@
 </head>
 <body>
 	<h1>HELLO WORLD!</h1>
-	<a href="/webapp-ant-test/learn-jquery.html">jquery example</a>
+	<%=request.getContextPath()%>
+	<ul>
+		<li><a href="${pageContext.request.contextPath}/learn-jquery.html">learn-jquery</a></li>
+		<li><a href="${pageContext.request.contextPath}/learn-jsgrid.html">learn-jsgrid</a></li>
+		<li><a href="${pageContext.request.contextPath}/learn-jsgrid-02.html">learn-jsgrid-02</a></li>
+		<li><a href="${pageContext.request.contextPath}/split-screen.html">split-screen</a></li>
+	</ul>
 </body>
 
 <script>
