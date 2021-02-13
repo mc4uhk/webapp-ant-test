@@ -16,7 +16,7 @@
 	<target name="svn-revision">
 		<exec executable="svnversion" outputproperty="revision" />
 		<echo message="SVN Revision: ${revision}" />
-		<propertyfile file="src/application.properties" comment="Application properties">
+		<propertyfile file="src/main/resources/application.properties" comment="Application properties">
 			<entry key="revision" type="string"  value="${revision}"/>
 		</propertyfile>
 	</target>
@@ -29,7 +29,7 @@
 		</exec>
 			
 		<echo message="Git Revision: ${revision}" />
-		<propertyfile file="src/application.properties" comment="Application properties">
+		<propertyfile file="src/main/resources/application.properties" comment="Application properties">
 			<entry key="revision" type="string"  value="${revision}"/>
 		</propertyfile>
 	</target>
