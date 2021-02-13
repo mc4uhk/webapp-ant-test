@@ -13,7 +13,16 @@
 		<delete dir="build" />
 	</target>
 
-	<target name="compile">
+	<target name="svnversion">
+		<exec executable="svnversion" outputproperty="svnversion" />
+		<echo message="SVN Version: ${svnversion}" />
+		<propertyfile file="src/application.properties" comment="Application properties">
+			<entry key="svn-revision" type="string"  value="${svnversion}"/>
+		</propertyfile>
+	</target>
+
+
+	<target name="compile" depends="svnversion">
 		<mkdir dir="build/classes" />
 		<javac srcdir="src" destdir="build/classes" >
 			<classpath refid="class.path"/>
@@ -41,11 +50,6 @@
 
 	<target name="run">
 		<java jar="build/jar/HelloWorld.jar" fork="true" />
-	</target>
-
-	<target name="svnversion">
-		<exec executable="svnversion" outputproperty="svnversion" />
-		<echo message="SVN Version: ${svnversion}" />
 	</target>
 
 
