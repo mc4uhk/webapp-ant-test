@@ -13,16 +13,28 @@
 		<delete dir="build" />
 	</target>
 
-	<target name="svnversion">
-		<exec executable="svnversion" outputproperty="svnversion" />
-		<echo message="SVN Version: ${svnversion}" />
+	<target name="svn-revision">
+		<exec executable="svnversion" outputproperty="revision" />
+		<echo message="SVN Revision: ${revision}" />
 		<propertyfile file="src/application.properties" comment="Application properties">
-			<entry key="svn-revision" type="string"  value="${svnversion}"/>
+			<entry key="revision" type="string"  value="${revision}"/>
 		</propertyfile>
 	</target>
 
-
-	<target name="compile" depends="svnversion">
+	<target name="git-revision">
+		<exec executable="git" outputproperty="revision">
+			<arg value="rev-list"/>
+			<arg value="--count"/>
+			<arg value="HEAD"/>
+		</exec>
+			
+		<echo message="Git Revision: ${revision}" />
+		<propertyfile file="src/application.properties" comment="Application properties">
+			<entry key="revision" type="string"  value="${revision}"/>
+		</propertyfile>
+	</target>
+		
+	<target name="compile" depends="git-revision">
 		<mkdir dir="build/classes" />
 		<javac srcdir="src/main/java" destdir="build/classes" >
 			<classpath refid="class.path"/>

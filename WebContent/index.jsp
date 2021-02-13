@@ -3,7 +3,7 @@
 <%
     // properties 配置文件名稱
     ResourceBundle res = ResourceBundle.getBundle("application");
-	String svnRevision= res.getString("svn-revision");
+	String svnRevision= res.getString("revision");
 %>
 
 <!DOCTYPE html>
