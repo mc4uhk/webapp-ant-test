@@ -9,7 +9,10 @@
 <body>
 	<h1>HELLO WORLD!</h1>
 	<%=request.getContextPath()%>
+	<% String val = request.getParameter("testParam"); %> 
+	
 	<ul>
+		<li><span>testParam: <%=val%></span></li>
 		<li><a href="${pageContext.request.contextPath}/learn-jquery.html">learn-jquery</a></li>
 		<li><a href="${pageContext.request.contextPath}/learn-jsgrid.html">learn-jsgrid</a></li>
 		<li><a href="${pageContext.request.contextPath}/learn-jsgrid-02.html">learn-jsgrid-02</a></li>
