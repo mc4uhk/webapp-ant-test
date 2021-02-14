@@ -1,3 +1,4 @@
+package hk.mc4u;
 import lombok.Data;
 
 @Data

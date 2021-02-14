@@ -1,3 +1,4 @@
+package test;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -7,6 +8,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 
+import hk.mc4u.SimpleItem;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j

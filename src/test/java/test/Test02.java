@@ -1,3 +1,4 @@
+package test;
 import java.lang.invoke.MethodHandles;
 
 import org.junit.jupiter.api.Test;
