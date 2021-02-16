@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+    <title>AXIOS example</title>
+  </head>
+  <body>
+    <div id="result" style="color: black"></div>
+  </body>
+
+  <script>
+    axios
+      .get("https://jsonplaceholder.typicode.com/todos", {
+        Name: "Fred",
+        Age: "23",
+      })
+      .then(function (response) {
+        console.log(response);
+        console.log(response.data);
+        response.data.forEach((d) => {
+          console.log(d);
+          $("#result").append(d.id);
+        });
+        //$("#result").append(response.data);
+      });
+  </script>
+</html>
