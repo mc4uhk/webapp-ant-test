@@ -28,8 +28,15 @@
       src="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.js"
     ></script>
 
+    <!--
     <script type="module" src="https://unpkg.com/jspdf@latest/dist/jspdf.umd.min.js"></script>    
     <script type="module" src="js/html2canvas.js"></script>
+    <script type="module" src="js/html2pdf.min.js"></script>
+    -->
+
+    <script src="js/html2pdf.bundle.js"></script>
+
+    
 
     <meta charset="UTF-8" />
     <title>CSS Position</title>
@@ -40,7 +47,7 @@
         https://www.youtube.com/watch?v=3nrLc_JOF7k
      -->
   </head>
-  <body>
+  <body id="abc">
     <div class="container" >
       <div class="h1">
         <span class="badge bg-primary"> Hi </span>
@@ -101,7 +108,7 @@
       </button>
     </div>
 
-    <div class="container" >
+    <div id="content" class="container" >
       <div class="card01-row" >
         <div class="button-panel" style="flex-grow: 1;">
           <img class="img-size" src="images/bird.svg" />
@@ -111,7 +118,7 @@
         </div>
         <div>
           <span class="btn btn-primary card-control" onclick="swapView()">swap view</span>
-          <span class="btn btn-primary card-control" onclick="capture3()">Print Screen</span>
+          <span class="btn btn-primary card-control" onclick="capture4()">Print Screen</span>
           <span class="btn btn-primary card-control" onclick="reset()" alt="reset">reset</span>
           <abbr title="help">help</abbr>
         </div>
@@ -150,7 +157,7 @@
   <script>
  
  function capture2(){
-      const { jsPDF } = window.jspdf;
+      // const { jsPDF } = window.jspdf;
 
       var doc = new jsPDF();
 
@@ -169,7 +176,7 @@
       //How do I get a multi-page pdf from a website using jsPDF and HTML2Canvas?
       //https://stackoverflow.com/questions/27045704/how-do-i-get-a-multi-page-pdf-from-a-website-using-jspdf-and-html2canvas
 
-      const { jsPDF } = window.jspdf;
+      // const { jsPDF } = window.jspdf;
       html2canvas(document.body).then(function(canvas){
         var imgData = canvas.toDataURL('image/png');
         var imgWidth = 210; 
@@ -191,6 +198,23 @@
         doc.save('file.pdf');
       })
     }
+
+
+    function capture4(){
+      //https://ekoopmans.github.io/html2pdf.js/
+      var element = document.getElementById('content');
+      var opt = {
+        margin:       20,
+        filename:     'myfile.pdf',
+        image:        { type: 'jpeg', quality: 0.98 },
+        html2canvas:  { scale: 2 },
+        jsPDF:        { unit: 'pt', format: 'a4', orientation: 'portrait' }
+      };
+
+      // New Promise-based usage:
+      html2pdf().set(opt).from(element).save();    
+}
+
   </script>
 
   <style>
@@ -240,7 +264,7 @@
 
     .top-left-panel.hori {
       display: inline-block;
-      column-count: 4;
+      column-count: 3;
     }
 
     .bottom-right-panel {
