@@ -3,11 +3,14 @@
   <head>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-
+    <script type="module" src="https://unpkg.com/jspdf@latest/dist/jspdf.umd.min.js"></script>    
+    <script type="module" src="js/html2canvas.js"></script>
     <title>AXIOS example</title>
   </head>
   <body>
     <div id="result" style="color: black"></div>
+    <input type="button" onclick="pageToPdf()" value="Hi"></input>
+    <img id="screenshot" src="" alt="">
   </body>
 
   <script>
@@ -20,10 +23,56 @@
         console.log(response);
         console.log(response.data);
         response.data.forEach((d) => {
-          console.log(d);
+          // console.log(d);
           $("#result").append(d.id);
         });
         //$("#result").append(response.data);
       });
+
+    function createPdf() {
+      const { jsPDF } = window.jspdf;
+
+      const doc = new jsPDF();
+
+      doc.text("Hello world!", 10, 10);
+      doc.save("a4.pdf");
+    }
+
+    function capture(){
+      html2canvas(document.body).then(function(canvas) {
+    document.body.appendChild(canvas);
+    });
+    }
+
+    function pageToPdf() {
+      const { jsPDF } = window.jspdf;
+
+      var doc = new jsPDF();
+
+      html2canvas(document.body, {
+        onrendered: function (canvas) {
+          var image = canvas.toDataURL("image/png");
+
+          doc.addImage(image, "JPEG", 0, 0, canvas.width, canvas.height);
+          doc.save("test.pdf");
+        },
+      });
+    }
+
+    function capture2(){
+      const { jsPDF } = window.jspdf;
+
+      var doc = new jsPDF();
+
+      html2canvas(document.body).then(function(canvas){
+        var img = canvas.toDataURL("image/png", wid = canvas.width, hgt = canvas.height);
+        var hratio = hgt/wid
+        var doc = new jsPDF('p','pt','a4');
+        var width = doc.internal.pageSize.width;    
+        var height = width * hratio
+        doc.addImage(img,'JPEG',20,20, width, height);
+        doc.save('Test.pdf');
+    });
+    }
   </script>
 </html>
