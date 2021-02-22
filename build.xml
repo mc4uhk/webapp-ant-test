@@ -15,9 +15,13 @@
 
 	<target name="svn-revision">
 		<exec executable="svnversion" outputproperty="revision" />
-		<echo message="SVN Revision: ${revision}" />
-		<propertyfile file="src/main/resources/application.properties" comment="Application properties">
-			<entry key="revision" type="string"  value="${revision}"/>
+		<tstamp>
+		    <format property="BUILD_DATE" pattern="yyyyMMdd"/>
+		</tstamp>		
+		<echo message="SVN Revision: ${BUILD_DATE} ${revision}" />
+		<propertyfile file="build/classes/application.properties" comment="Application properties">
+			<entry key="APP.revision" type="string"  value="${revision}"/>
+			<entry key="APP.build.date" type="string"  value="${BUILD_DATE}"/>
 		</propertyfile>
 	</target>
 
@@ -56,7 +60,7 @@
 	</target>
 
 
-	<target name="war" depends="clean,compile">
+	<target name="war" depends="clean,compile,svn-revision">
 		<war destfile="build/war/myapp.war" webxml="WebContent/WEB-INF/web.xml">
 			<fileset dir="WebContent/">
 			</fileset>
