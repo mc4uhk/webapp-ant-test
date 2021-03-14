@@ -3,6 +3,7 @@ export default function hello() {
 }
 
 
+
 export class TodoHistory {
     constructor(ui) {
         this.ui = ui;
@@ -33,5 +34,10 @@ export class TodoHistory {
         let storeString = JSON.stringify(Array.from(this.hashMap.entries()));
         localStorage.setItem("todo-history-" + this.ui, storeString);
     }
+
+    reset() {
+        this.hashMap.clear();
+    }
+
 }
 
