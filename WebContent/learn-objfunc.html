@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script
+      src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"
+      integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30="
+      crossorigin="anonymous"
+    ></script>
+    <link rel="stylesheet" href="learn-jquery.css" />
+
+    <link
+      type="text/css"
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.css"
+    />
+    <link
+      type="text/css"
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid-theme.min.css"
+    />
+
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.js"
+    ></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <meta charset="UTF-8" />
+    <title>CSS Position</title>
+  </head>
+  <body>
+    <header>
+      <h1>Obj func</h1>
+    </header>
+  </body>
+
+  <script>
+    const format = {
+      LM_FMT_A: [
+        { a: "1", b: "2", c: "3" },
+        { a: "1", b: "2", c: "3" },
+        { a: "1", b: "2", c: "3" },
+        { a: "1", b: "2", c: "3" },
+      ],
+      LM_FMT_B: [
+        { a: "4", b: "5", c: "6" },
+        { a: "4", b: "5", c: "6" },
+        { a: "4", b: "5", c: "6" },
+        { a: "4", b: "5", c: "6" },
+        { a: "4", b: "5", c: "6" },
+        { a: "4", b: "5", c: "6" },
+      ],
+      TLL_FMT_A: [{ a: "7", b: "8" }],
+      POE_FMT_A: [{ a: "01", b: "03", c: "05", d: "07" }],
+      ARMS_FMT_A: [{ a: "02", b: "04", c: "06" }],
+    };
+
+    function getObject(itemCode) {
+      switch (itemCode) {
+        case "LM_TODO_A":
+        case "LM_TODO_B":
+          return format["LM_FMT_A"];
+        case "LM_TODO_C":
+        case "LM_TODO_D":
+          return format["LM_FMT_B"];
+        case "TLL_TODO_A":
+          return format["TLL_FMT_A"];
+        case "POE_TODO_A":
+          return format["POE_FMT_A"];
+        case "ARMS_FMT_A":
+          return format["ARMS_FMT_A"];
+        default:
+          break;
+      }
+    }
+
+    var itemCode = "LM_TODO_C";
+    console.log(getObject(itemCode));
+  </script>
+</html>
